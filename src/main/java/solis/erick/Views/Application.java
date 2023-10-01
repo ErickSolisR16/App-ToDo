@@ -35,29 +35,29 @@ public class Application {
 		return Integer.parseInt(in.readLine());
 	}
 
-	private static void executeOption(int pOption) {
+	private static void executeOption(int pOption) throws IOException {
 		switch (pOption) {
-			case 0:
-				System.out.println("Gracias por usar la aplicacion");
-				break;
-			case 1:
-				createTask();
-				break;
-			case 2:
-				showListTask();
-				break;
-			case 3:
-				updateTask();
-				break;
-			case 4:
-				deleteTask();
-				break;
-			default:
-				System.out.println("Opcion invalida");
+			case 0 -> System.out.println("Gracias por usar la aplicacion");
+			case 1 -> createTask();
+			case 2 -> showListTask();
+			case 3 -> updateTask();
+			case 4 -> deleteTask();
+			default -> System.out.println("Opcion invalida");
 		}
 	}
 
-	private static void createTask() {
+	private static final Manager manager = new Manager();
+
+	private static void createTask() throws IOException {
+		System.out.println("Digite el titulo de la tarea");
+		String title = in.readLine();
+		System.out.println("Digite la descripcion de la tarea");
+		String description = in.readLine();
+		if (manager.createTask(title, description)) {
+			System.out.println("Tarea creada exitosamente");
+		} else {
+			System.out.println("No se pudo crear la tarea");
+		}
 	}
 
 	private static void showListTask() {
