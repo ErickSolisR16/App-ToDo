@@ -1,4 +1,4 @@
-package solis.erick;
+package solis.erick.Views;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
