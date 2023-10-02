@@ -8,7 +8,7 @@ public class Task {
     /**
      * Atributtes
      */
-    private int id = 0;
+    private int id;
     private String title, description;
 
     /**
@@ -31,36 +31,12 @@ public class Task {
     }
 
     /**
-     * Get Id
-     *
-     * @return id
-     */
-    public int getId() {
-        return id;
-    }
-
-    /**
-     * Set title
-     *
-     * @param title of task
-     */
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    /**
-     * Set description
-     *
-     * @param description of task
-     */
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    /**
      * Atributtes
      */
     private final ArrayList<Task> listTask = new ArrayList<>();
+    private String query = "";
+    private PreparedStatement preparedStatement;
+    private Connection connection;
 
     /**
      * Creation of new task
@@ -70,11 +46,24 @@ public class Task {
      * @return true
      */
     public boolean createTask(String pTitle, String pDescription) {
-        Task newTask = new Task(id, pTitle, pDescription);
-        listTask.add(newTask);
-        id++;
-        return true;
+        query = "INSERT INTO task (title, description) VALUES (?, ?)";
+        try {
+            connection = getConnection();
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, pTitle);
+            preparedStatement.setString(2, pDescription);
+            int rowAffetec = preparedStatement.executeUpdate();
+            return rowAffetec != 0;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return false;
+        }
     }
+
+    /**
+     * Attribute
+     */
+    private ResultSet resultSet;
 
     /**
      * Shows the task list
@@ -82,7 +71,21 @@ public class Task {
      * @return listTask
      */
     public ArrayList showListTask() {
-        return listTask;
+        query = "SELECT * FROM task";
+        listTask.clear();
+        try {
+            connection = getConnection();
+            preparedStatement = connection.prepareStatement(query);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Task newTask = new Task(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3));
+                listTask.add(newTask);
+            }
+            return listTask;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return null;
+        }
     }
 
     /**
@@ -104,14 +107,19 @@ public class Task {
      * @return true/false
      */
     public boolean updateTask(int pId, String pTitle, String pDescription) {
-        for (Task task : listTask) {
-            if (pId == task.getId()) {
-                task.setTitle(pTitle);
-                task.setDescription(pDescription);
-                return true;
-            }
+        query = "UPDATE task SET title = ?, description = ? WHERE id = ?";
+        try {
+            connection = getConnection();
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, pTitle);
+            preparedStatement.setString(2, pDescription);
+            preparedStatement.setInt(3, pId);
+            int rowAffected = preparedStatement.executeUpdate();
+            return rowAffected != 0;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return false;
         }
-        return false;
     }
 
     /**
@@ -120,7 +128,20 @@ public class Task {
      * @return true/false
      */
     public boolean existTaskList() {
-        return listTask.isEmpty();
+        query = "SELECT COUNT(*) FROM task";
+        try {
+            connection = getConnection();
+            preparedStatement = connection.prepareStatement(query);
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                int rowCount = resultSet.getInt(1);
+                return rowCount != 0;
+            }
+            return false;
+        } catch (SQLException ex) {
+         ex.printStackTrace();
+         return false;
+        }
     }
 
     /**
@@ -130,12 +151,17 @@ public class Task {
      * @return true/false
      */
     public boolean searchTask(int pId) {
-        for (Task task : listTask) {
-            if (pId == task.getId()) {
-                return true;
-            }
+        query = "SELECT id FROM task WHERE id = ?";
+        try {
+            connection = getConnection();
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, pId);
+            resultSet = preparedStatement.executeQuery();
+            return resultSet.next();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return false;
         }
-        return false;
     }
 
     /**
@@ -145,13 +171,17 @@ public class Task {
      * @return true/false
      */
     public boolean deleteTask(int pId) {
-        for (int i = 0; i < listTask.size(); i++) {
-            if (pId == listTask.get(i).getId()) {
-                listTask.remove(listTask.get(i));
-                return true;
-            }
+        query = "DELETE FROM task WHERE id = ?";
+        try {
+            connection = getConnection();
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, pId);
+            int rowAffected = preparedStatement.executeUpdate();
+            return rowAffected != 0;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return false;
         }
-        return false;
     }
 
     /**
@@ -160,13 +190,12 @@ public class Task {
     private final String user = "user_todo_app";
     private final String password = "321";
     private final String urlConnection = "jdbc:sqlserver://DESKTOP-EC894PS\\SQLEXPRESS\\MSSQL:1433;databaseName=todo_app_db;encrypt=false;trustServerCertificate=false";
-    private Connection connection;
 
     /**
      * Connection to the database
      *
      * @return connection
-     * @throws SQLException
+     * @throws SQLException Database exception
      */
     public Connection getConnection() throws SQLException {
         try {
