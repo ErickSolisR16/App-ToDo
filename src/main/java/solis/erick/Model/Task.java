@@ -39,24 +39,6 @@ public class Task {
     }
 
     /**
-     * Get title
-     *
-     * @return title
-     */
-    public String getTitle() {
-        return title;
-    }
-
-    /**
-     * Get description
-     *
-     * @return description
-     */
-    public String getDescription() {
-        return description;
-    }
-
-    /**
      * Set title
      *
      * @param title of task
@@ -137,11 +119,7 @@ public class Task {
      * @return true/false
      */
     public boolean existTaskList() {
-        if (listTask.isEmpty()) {
-            return true;
-        } else {
-            return false;
-        }
+        return listTask.isEmpty();
     }
 
     /**
@@ -151,8 +129,24 @@ public class Task {
      * @return true/false
      */
     public boolean searchTask(int pId) {
+        for (Task task : listTask) {
+            if (pId == task.getId()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Delete a task
+     *
+     * @param pId of task
+     * @return true/false
+     */
+    public boolean deleteTask(int pId) {
         for (int i = 0; i < listTask.size(); i++) {
             if (pId == listTask.get(i).getId()) {
+                listTask.remove(listTask.get(i));
                 return true;
             }
         }

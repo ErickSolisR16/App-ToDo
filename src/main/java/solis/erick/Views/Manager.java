@@ -9,15 +9,14 @@ public class Manager {
     public Manager() {
     }
 
-    private TaskController controller = new TaskController();
+    private final TaskController controller = new TaskController();
 
     public boolean createTask(String pTitle, String pDescription) {
         return controller.createTask(pTitle, pDescription);
     }
 
     public ArrayList showListTask() {
-        ArrayList listTask = controller.showListTask();
-        return listTask;
+        return controller.showListTask();
     }
 
     public boolean updateTask(int pId, String pTitle, String pDescription) {
@@ -30,5 +29,9 @@ public class Manager {
 
     public boolean searchTask(int pId) {
         return controller.searchTask(pId);
+    }
+
+    public boolean deleteTask(int pId) {
+        return controller.deleteTask(pId);
     }
 }

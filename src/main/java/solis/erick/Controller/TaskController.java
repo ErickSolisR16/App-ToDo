@@ -34,8 +34,7 @@ public class TaskController {
      * @return listTask
      */
     public ArrayList showListTask() {
-        ArrayList listTask = task.showListTask();
-        return listTask;
+        return task.showListTask();
     }
 
     /**
@@ -67,5 +66,15 @@ public class TaskController {
      */
     public boolean searchTask(int pId) {
         return task.searchTask(pId);
+    }
+
+    /**
+     * Delete a task
+     *
+     * @param pId of task
+     * @return deleteTask()
+     */
+    public boolean deleteTask(int pId) {
+        return task.deleteTask(pId);
     }
 }

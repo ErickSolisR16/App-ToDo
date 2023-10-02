@@ -17,12 +17,13 @@ public class Application {
 	private static void showOptions() throws IOException {
 		int option;
 		do {
-			System.out.println();
+			System.out.println("");
 			System.out.println("0. Salir");
 			System.out.println("1. Crear tarea");
 			System.out.println("2. Mostrar tareas");
 			System.out.println("3. Actualizar tarea");
 			System.out.println("4. Eliminar tarea");
+			System.out.println("");
 			option = selectOption();
 			executeOption(option);
 			System.out.println();
@@ -62,10 +63,14 @@ public class Application {
 	}
 
 	private static void showListTask() {
-		System.out.println("Lista de tareas pendientes: ");
-		ArrayList listTask = manager.showListTask();
-		for (Object task : listTask) {
-			System.out.println(task.toString());
+		if (!manager.existTaskList()) {
+			System.out.println("Lista de tareas pendientes: ");
+			ArrayList listTask = manager.showListTask();
+			for (Object task : listTask) {
+				System.out.println(task.toString());
+			}
+		} else {
+			System.out.println("No hay tareas pendientes");
 		}
 	}
 
@@ -92,8 +97,23 @@ public class Application {
 		}
 	}
 
-	private static void deleteTask() {
-
+	private static void deleteTask() throws IOException {
+		if (!manager.existTaskList()) {
+			showListTask();
+			System.out.println("Digite el id de la tarea que desea eliminar");
+			int id = Integer.parseInt(in.readLine());
+			if (manager.searchTask(id)) {
+				if (manager.deleteTask(id)) {
+					System.out.println("Tarea eliminada exitosamente");
+				} else {
+					System.out.println("Error al eliminar la tarea");
+				}
+			} else {
+				System.out.println("La tarea que desea actualizar no se encuentra");
+			}
+		} else {
+			System.out.println("No hay tareas pendientes");
+		}
 	}
 
 }
