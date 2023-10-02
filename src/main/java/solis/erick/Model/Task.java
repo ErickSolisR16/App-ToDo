@@ -47,4 +47,23 @@ public class Task {
         id++;
         return true;
     }
+
+    /**
+     * Shows the task list
+     *
+     * @return listTask
+     */
+    public ArrayList showListTask() {
+        return listTask;
+    }
+
+    /**
+     * Method override toString
+     *
+     * @return task
+     */
+    @Override
+    public String toString() {
+        return "Id: " + id + " titulo: " + title + " descripcion: " + description;
+    }
 }

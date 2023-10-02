@@ -4,6 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.io.*;
+import java.util.ArrayList;
 
 @SpringBootApplication
 public class Application {
@@ -61,7 +62,11 @@ public class Application {
 	}
 
 	private static void showListTask() {
-
+		System.out.println("Lista de tareas pendientes: ");
+		ArrayList listTask = manager.showListTask();
+		for (Object task : listTask) {
+			System.out.println(task.toString());
+		}
 	}
 
 	private static void updateTask() {
