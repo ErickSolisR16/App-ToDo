@@ -1,5 +1,6 @@
 package solis.erick.Views;
 
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -63,7 +64,7 @@ public class Application {
 	private static void showListTask() {
         if (manager.existTaskList()) {
             System.out.println("Lista de tareas pendientes: ");
-            ArrayList listTask = manager.showListTask();
+            ArrayNode listTask = manager.showListTask();
             for (Object task : listTask) {
                 System.out.println(task.toString());
             }

@@ -1,5 +1,6 @@
 package solis.erick.Controller;
 
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import solis.erick.Model.Task;
 
 import java.util.ArrayList;
@@ -33,7 +34,7 @@ public class TaskController {
      *
      * @return listTask
      */
-    public ArrayList showListTask() {
+    public ArrayNode showListTask() {
         return task.showListTask();
     }
 

@@ -1,5 +1,9 @@
 package solis.erick.Model;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -28,6 +32,18 @@ public class Task {
         this.id = id;
         this.title = title;
         this.description = description;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     /**
@@ -70,16 +86,21 @@ public class Task {
      *
      * @return listTask
      */
-    public ArrayList showListTask() {
+    public ArrayNode showListTask() {
         query = "SELECT * FROM task";
-        listTask.clear();
         try {
             connection = getConnection();
             preparedStatement = connection.prepareStatement(query);
             resultSet = preparedStatement.executeQuery();
+            ObjectMapper objectMapper = new ObjectMapper();
+            ArrayNode listTask = objectMapper.createArrayNode();
             while (resultSet.next()) {
                 Task newTask = new Task(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3));
-                listTask.add(newTask);
+                ObjectNode taskObjectNode = objectMapper.createObjectNode();
+                taskObjectNode.put("id", newTask.getId());
+                taskObjectNode.put("title", newTask.getTitle());
+                taskObjectNode.put("description", newTask.getDescription());
+                listTask.add(taskObjectNode);
             }
             return listTask;
         } catch (SQLException ex) {
