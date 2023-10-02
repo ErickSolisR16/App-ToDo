@@ -1,5 +1,6 @@
 package solis.erick.Model;
 
+import java.sql.*;
 import java.util.ArrayList;
 
 public class Task {
@@ -151,5 +152,30 @@ public class Task {
             }
         }
         return false;
+    }
+
+    /**
+     * Attributes for database connection
+     */
+    private final String user = "user_todo_app";
+    private final String password = "321";
+    private final String urlConnection = "jdbc:sqlserver://DESKTOP-EC894PS\\SQLEXPRESS\\MSSQL:1433;databaseName=todo_app_db;encrypt=false;trustServerCertificate=false";
+    private Connection connection;
+
+    /**
+     * Connection to the database
+     *
+     * @return connection
+     * @throws SQLException
+     */
+    public Connection getConnection() throws SQLException {
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            connection = DriverManager.getConnection(urlConnection, user, password);
+        } catch (ClassNotFoundException ex) {
+            System.out.println("Error al conectarse a la base de datos");
+            ex.printStackTrace();
+        }
+        return connection;
     }
 }
