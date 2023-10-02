@@ -19,4 +19,16 @@ public class Manager {
         ArrayList listTask = controller.showListTask();
         return listTask;
     }
+
+    public boolean updateTask(int pId, String pTitle, String pDescription) {
+        return controller.updateTask(pId, pTitle, pDescription);
+    }
+
+    public boolean existTaskList() {
+        return controller.existTaskList();
+    }
+
+    public boolean searchTask(int pId) {
+        return controller.searchTask(pId);
+    }
 }

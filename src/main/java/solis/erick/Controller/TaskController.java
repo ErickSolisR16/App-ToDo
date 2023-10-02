@@ -37,4 +37,35 @@ public class TaskController {
         ArrayList listTask = task.showListTask();
         return listTask;
     }
+
+    /**
+     * We update a task
+     *
+     * @param pId of thask
+     * @param pTitle of task
+     * @param pDescription of task
+     * @return updateTask()
+     */
+    public boolean updateTask(int pId, String pTitle, String pDescription) {
+        return task.updateTask(pId, pTitle, pDescription);
+    }
+
+    /**
+     * We check if there is a task list
+     *
+     * @return existTaskList()
+     */
+    public boolean existTaskList() {
+        return task.existTaskList();
+    }
+
+    /**
+     * We are looking for a specific task
+     *
+     * @param pId of task
+     * @return searchTask()
+     */
+    public boolean searchTask(int pId) {
+        return task.searchTask(pId);
+    }
 }

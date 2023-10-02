@@ -69,8 +69,27 @@ public class Application {
 		}
 	}
 
-	private static void updateTask() {
-
+	private static void updateTask() throws IOException {
+		if (!manager.existTaskList()) {
+			showListTask();
+			System.out.println("Digite el id de latarea que desea actualizar");
+			int id = Integer.parseInt(in.readLine());
+			if (manager.searchTask(id)) {
+				System.out.println("Digite el nuevo titulo de la tarea");
+				String title = in.readLine();
+				System.out.println("Digite la nueva descripcion de la tarea");
+				String description = in.readLine();
+				if (manager.updateTask(id, title, description)) {
+					System.out.println("Tarea actualizada exitosamente");
+				} else {
+					System.out.println("Error al actualizar la tarea");
+				}
+			} else {
+				System.out.println("La tarea que desea actualizar no se encuentra");
+			}
+		} else {
+			System.out.println("No hay tareas pendientes");
+		}
 	}
 
 	private static void deleteTask() {
