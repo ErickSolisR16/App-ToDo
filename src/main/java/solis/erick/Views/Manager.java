@@ -25,8 +25,8 @@ public class Manager {
     }
 
     @PutMapping("/api/updateTask")
-    public boolean updateTask(int pId, String pTitle, String pDescription) {
-        return controller.updateTask(pId, pTitle, pDescription);
+    public boolean updateTask(@RequestBody String pTask) {
+        return controller.updateTask(pTask);
     }
 
     public boolean existTaskList() {

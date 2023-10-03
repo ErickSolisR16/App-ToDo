@@ -50,11 +50,10 @@ public class Task {
     /**
      * Atributtes
      */
-    private final ArrayList<Task> listTask = new ArrayList<>();
     private String query = "";
     private PreparedStatement preparedStatement;
     private Connection connection;
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     /**
      * Creation of new task
@@ -125,22 +124,24 @@ public class Task {
     /**
      * We update a task
      *
-     * @param pId of task
-     * @param pTitle of task
-     * @param pDescription of task
+     * @param pTask task in JSON format
      * @return true/false
      */
-    public boolean updateTask(int pId, String pTitle, String pDescription) {
-        query = "UPDATE task SET title = ?, description = ? WHERE id = ?";
+    public boolean updateTask(String pTask) {
         try {
+            JsonNode taskJSON = objectMapper.readTree(pTask);
+            int id = taskJSON.get("id").asInt();
+            String title = taskJSON.get("title").asText();
+            String description = taskJSON.get("description").asText();
+            query = "UPDATE task SET title = ?, description = ? WHERE id = ?";
             connection = getConnection();
             preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1, pTitle);
-            preparedStatement.setString(2, pDescription);
-            preparedStatement.setInt(3, pId);
+            preparedStatement.setString(1, title);
+            preparedStatement.setString(2, description);
+            preparedStatement.setInt(3, id);
             int rowAffected = preparedStatement.executeUpdate();
             return rowAffected != 0;
-        } catch (SQLException ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
             return false;
         }

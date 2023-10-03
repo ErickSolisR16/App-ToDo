@@ -40,13 +40,11 @@ public class TaskController {
     /**
      * We update a task
      *
-     * @param pId of thask
-     * @param pTitle of task
-     * @param pDescription of task
+     * @param pTask Task in JSON format
      * @return updateTask()
      */
-    public boolean updateTask(int pId, String pTitle, String pDescription) {
-        return task.updateTask(pId, pTitle, pDescription);
+    public boolean updateTask(String pTask) {
+        return task.updateTask(pTask);
     }
 
     /**

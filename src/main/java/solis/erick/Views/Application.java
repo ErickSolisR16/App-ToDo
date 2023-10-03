@@ -74,7 +74,7 @@ public class Application {
 	}
 
 	private static void updateTask() throws IOException {
-		if (manager.existTaskList()) {
+		/*if (manager.existTaskList()) {
 			showListTask();
 			System.out.println("Digite el id de latarea que desea actualizar");
 			int id = Integer.parseInt(in.readLine());
@@ -93,7 +93,7 @@ public class Application {
 			}
 		} else {
 			System.out.println("No hay tareas pendientes");
-		}
+		}*/
 	}
 
 	private static void deleteTask() throws IOException {
