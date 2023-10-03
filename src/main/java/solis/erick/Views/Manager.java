@@ -15,8 +15,8 @@ public class Manager {
     private final TaskController controller = new TaskController();
 
     @PostMapping("/api/createTask")
-    public boolean createTask(String pTitle, String pDescription) {
-        return controller.createTask(pTitle, pDescription);
+    public boolean createTask(@RequestBody String pTask) {
+        return controller.createTask(pTask);
     }
 
     @GetMapping("/api/listTask")

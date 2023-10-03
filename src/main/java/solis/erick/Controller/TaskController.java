@@ -21,12 +21,11 @@ public class TaskController {
     /**
      * Create a new task
      *
-     * @param pTitle of task
-     * @param pDescription of task
+     * @param pTask Task in JSON format
      * @return createTask()
      */
-    public boolean createTask(String pTitle, String pDescription) {
-        return task.createTask(pTitle, pDescription);
+    public boolean createTask(String pTask) {
+        return task.createTask(pTask);
     }
 
     /**

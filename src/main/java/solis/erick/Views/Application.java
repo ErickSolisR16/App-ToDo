@@ -50,7 +50,7 @@ public class Application {
 	private static final Manager manager = new Manager();
 
 	private static void createTask() throws IOException {
-		System.out.println("Digite el titulo de la tarea");
+		/*System.out.println("Digite el titulo de la tarea");
 		String title = in.readLine();
 		System.out.println("Digite la descripcion de la tarea");
 		String description = in.readLine();
@@ -58,7 +58,7 @@ public class Application {
 			System.out.println("Tarea creada exitosamente");
 		} else {
 			System.out.println("No se pudo crear la tarea");
-		}
+		}*/
 	}
 
 	private static void showListTask() {

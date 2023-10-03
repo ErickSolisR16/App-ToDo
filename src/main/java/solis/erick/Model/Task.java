@@ -1,5 +1,6 @@
 package solis.erick.Model;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -53,24 +54,27 @@ public class Task {
     private String query = "";
     private PreparedStatement preparedStatement;
     private Connection connection;
+    private ObjectMapper objectMapper = new ObjectMapper();
 
     /**
      * Creation of new task
      *
-     * @param pTitle of task
-     * @param pDescription of task
-     * @return true
+     * @param pTask task in JSON format
+     * @return true/false
      */
-    public boolean createTask(String pTitle, String pDescription) {
-        query = "INSERT INTO task (title, description) VALUES (?, ?)";
+    public boolean createTask(String pTask) {
         try {
+            JsonNode taskJSON = objectMapper.readTree(pTask);
+            String title = taskJSON.get("title").asText();
+            String description = taskJSON.get("description").asText();
+            query = "INSERT INTO task (title, description) VALUES (?, ?)";
             connection = getConnection();
             preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1, pTitle);
-            preparedStatement.setString(2, pDescription);
+            preparedStatement.setString(1, title);
+            preparedStatement.setString(2, description);
             int rowAffetec = preparedStatement.executeUpdate();
             return rowAffetec != 0;
-        } catch (SQLException ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
             return false;
         }
@@ -92,7 +96,6 @@ public class Task {
             connection = getConnection();
             preparedStatement = connection.prepareStatement(query);
             resultSet = preparedStatement.executeQuery();
-            ObjectMapper objectMapper = new ObjectMapper();
             ArrayNode listTask = objectMapper.createArrayNode();
             while (resultSet.next()) {
                 Task newTask = new Task(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3));
