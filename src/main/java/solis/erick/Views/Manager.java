@@ -4,8 +4,6 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import org.springframework.web.bind.annotation.*;
 import solis.erick.Controller.TaskController;
 
-import java.util.ArrayList;
-
 @RestController
 public class Manager {
 
@@ -38,7 +36,7 @@ public class Manager {
     }
 
     @DeleteMapping("/api/deleteTask")
-    public boolean deleteTask(int pId) {
-        return controller.deleteTask(pId);
+    public boolean deleteTask(@RequestBody String pTask) {
+        return controller.deleteTask(pTask);
     }
 }

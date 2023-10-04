@@ -3,8 +3,6 @@ package solis.erick.Controller;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import solis.erick.Model.Task;
 
-import java.util.ArrayList;
-
 public class TaskController {
 
     /**
@@ -69,10 +67,10 @@ public class TaskController {
     /**
      * Delete a task
      *
-     * @param pId of task
+     * @param pTask task in JSON format
      * @return deleteTask()
      */
-    public boolean deleteTask(int pId) {
-        return task.deleteTask(pId);
+    public boolean deleteTask(String pTask) {
+        return task.deleteTask(pTask);
     }
 }

@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import java.sql.*;
-import java.util.ArrayList;
 
 public class Task {
 
@@ -192,18 +191,20 @@ public class Task {
     /**
      * Delete a task
      *
-     * @param pId of task
+     * @param pTask task in JSON format
      * @return true/false
      */
-    public boolean deleteTask(int pId) {
-        query = "DELETE FROM task WHERE id = ?";
+    public boolean deleteTask(String pTask) {
         try {
+            JsonNode taskJSON = objectMapper.readTree(pTask);
+            int id = taskJSON.get("id").asInt();
+            query = "DELETE FROM task WHERE id = ?";
             connection = getConnection();
             preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1, pId);
+            preparedStatement.setInt(1, id);
             int rowAffected = preparedStatement.executeUpdate();
             return rowAffected != 0;
-        } catch (SQLException ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
             return false;
         }
