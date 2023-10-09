@@ -9,7 +9,8 @@ Application for task management
 
 ## Tech Stack
 
-**Server:** Java - Spring boot
+**Server:** Java - Spring boot \
+**Client:** React
 
 ## Author
 
