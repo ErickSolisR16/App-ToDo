@@ -29,8 +29,7 @@ function Form(props) {
       type='text'
       placeholder='Escribe una nueva tarea'
       name='text'
-      onChange={handleChange}
-      id='title' />
+      onChange={handleChange} />
       <button className='button-task'>
         Agregar tarea
       </button>
