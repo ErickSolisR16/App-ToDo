@@ -7,11 +7,46 @@ function TaskList() {
 
   const [tasks, setTasks] = useState([]);
 
-  const addTask = task => {
-    if (task.text.trim()) {
-      task.text = task.text.trim();
-      const updatedTasks = [task, ...tasks];
+  /**
+   * Creating a new task
+   * 
+   * @param {*} task 
+   */
+  const createTask = async task => {
+    try {
+      const response = await fetch('http://localhost:8080/api/createTask', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(task),
+      });
+      if (!response.ok) {
+        throw new Error('Error al crear la tarea');
+      }
+      const updatedTasks = await fetchTasks();
       setTasks(updatedTasks);
+    } catch (error) {
+      console.error('Error al crear la tarea en el servidor ==> ', error);
+    }
+  };
+
+  /**
+   * Shows registered tasks when creating a new task
+   * 
+   * @returns array
+   */
+  const fetchTasks = async () => {
+    try {
+      const response = await fetch('http://localhost:8080/api/listTask');
+      if (!response.ok) {
+        throw new Error('Error al obtener las tareas');
+      }
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('Error:', error);
+      return [];
     }
   };
 
@@ -30,6 +65,9 @@ function TaskList() {
     setTasks(updatedTasks);
   };
 
+  /**
+   * Shows the tasks registered when loading the application
+   */
   useEffect(() => {
     const fetchTasks = async () => {
       try {
@@ -46,11 +84,11 @@ function TaskList() {
     };
 
     fetchTasks();
-  }, []);
+  });
 
   return (
     <>
-      <Form onSubmit={addTask} />
+      <Form onSubmit={createTask} />
       <div className='task-list-container'>
         {tasks.map(task => (
             <Task 
