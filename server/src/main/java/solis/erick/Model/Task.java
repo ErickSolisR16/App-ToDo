@@ -26,12 +26,10 @@ public class Task {
      *
      * @param id of task
      * @param title of task
-     * @param description of task
      */
-    public Task(int id, String title, String description) {
+    public Task(int id, String title) {
         this.id = id;
         this.title = title;
-        this.description = description;
     }
 
     public int getId() {
@@ -40,10 +38,6 @@ public class Task {
 
     public String getTitle() {
         return title;
-    }
-
-    public String getDescription() {
-        return description;
     }
 
     /**
@@ -64,12 +58,10 @@ public class Task {
         try {
             JsonNode taskJSON = objectMapper.readTree(pTask);
             String title = taskJSON.get("title").asText();
-            String description = taskJSON.get("description").asText();
-            query = "INSERT INTO task (title, description) VALUES (?, ?)";
+            query = "INSERT INTO task (title) VALUES (?)";
             connection = getConnection();
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, title);
-            preparedStatement.setString(2, description);
             int rowAffetec = preparedStatement.executeUpdate();
             return rowAffetec != 0;
         } catch (Exception ex) {
@@ -96,11 +88,10 @@ public class Task {
             resultSet = preparedStatement.executeQuery();
             ArrayNode listTask = objectMapper.createArrayNode();
             while (resultSet.next()) {
-                Task newTask = new Task(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3));
+                Task newTask = new Task(resultSet.getInt(1), resultSet.getString(2));
                 ObjectNode taskObjectNode = objectMapper.createObjectNode();
                 taskObjectNode.put("id", newTask.getId());
                 taskObjectNode.put("title", newTask.getTitle());
-                taskObjectNode.put("description", newTask.getDescription());
                 listTask.add(taskObjectNode);
             }
             return listTask;
@@ -131,12 +122,10 @@ public class Task {
             JsonNode taskJSON = objectMapper.readTree(pTask);
             int id = taskJSON.get("id").asInt();
             String title = taskJSON.get("title").asText();
-            String description = taskJSON.get("description").asText();
-            query = "UPDATE task SET title = ?, description = ? WHERE id = ?";
+            query = "UPDATE task SET title = ? WHERE id = ?";
             connection = getConnection();
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, title);
-            preparedStatement.setString(2, description);
             preparedStatement.setInt(3, id);
             int rowAffected = preparedStatement.executeUpdate();
             return rowAffected != 0;
@@ -213,9 +202,9 @@ public class Task {
     /**
      * Attributes for database connection
      */
-    private final String user = "user_todo_app";
+    private final String user = "todo_app_user";
     private final String password = "321";
-    private final String urlConnection = "jdbc:sqlserver://DESKTOP-EC894PS\\SQLEXPRESS\\MSSQL:1433;databaseName=todo_app_db;encrypt=false;trustServerCertificate=false";
+    private final String urlConnection = "jdbc:sqlserver://DESKTOP-EC894PS\\SQLEXPRESS\\MSSQL:1433;databaseName=db_todo_app;encrypt=false;trustServerCertificate=false";
 
     /**
      * Connection to the database

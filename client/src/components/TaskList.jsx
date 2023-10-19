@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Form from './Form';
 import Task from './Task';
 import '../css/TaskList.css';
@@ -30,22 +30,38 @@ function TaskList() {
     setTasks(updatedTasks);
   };
 
+  useEffect(() => {
+    const fetchTasks = async () => {
+      try {
+        const response = await fetch('http://localhost:8080/api/listTask');
+        if (!response.ok) {
+          throw new Error('Error al obtener las tareas');
+        }
+        const data = await response.json();
+        console.log(data);
+        setTasks(data);
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+
+    fetchTasks();
+  }, []);
+
   return (
     <>
       <Form onSubmit={addTask} />
       <div className='task-list-container'>
-        {
-          tasks.map((task) => 
+        {tasks.map(task => (
             <Task 
               key={task.id}
               id={task.id}
-              text={task.text}
+              text={task.title}
               completed={task.completed}
               deleteTask={deleteTask}
               completedTask={completedTask}
             />
-          )
-        }
+          ))}
       </div>
     </>
   );
