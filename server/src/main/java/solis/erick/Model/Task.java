@@ -12,8 +12,8 @@ public class Task {
     /**
      * Atributtes
      */
-    private int id;
-    private String title, description;
+    private int id, state;
+    private String title;
 
     /**
      * Default constructor
@@ -58,10 +58,11 @@ public class Task {
         try {
             JsonNode taskJSON = objectMapper.readTree(pTask);
             String title = taskJSON.get("title").asText();
-            query = "INSERT INTO task (title) VALUES (?)";
+            query = "INSERT INTO task (title, state) VALUES (?, ?)";
             connection = getConnection();
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, title);
+            preparedStatement.setInt(2, 0);
             int rowAffetec = preparedStatement.executeUpdate();
             return rowAffetec != 0;
         } catch (Exception ex) {
@@ -99,16 +100,6 @@ public class Task {
             ex.printStackTrace();
             return null;
         }
-    }
-
-    /**
-     * Method override toString
-     *
-     * @return task
-     */
-    @Override
-    public String toString() {
-        return "Id: " + id + " titulo: " + title + " descripcion: " + description;
     }
 
     /**
