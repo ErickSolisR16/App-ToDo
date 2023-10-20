@@ -16,6 +16,7 @@ function Form(props) {
       title: input
     };
     props.onSubmit(newTask);
+    document.getElementById('title').value = '';
   };
 
 
@@ -28,6 +29,7 @@ function Form(props) {
       type='text'
       placeholder='Escribe una nueva tarea'
       name='text'
+      id='title'
       onChange={handleChange} />
       <button className='button-task'>
         Agregar tarea

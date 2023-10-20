@@ -50,9 +50,33 @@ function TaskList() {
     }
   };
 
-  const deleteTask = id => {
-    const updatedTasks = tasks.filter(task => task.id !== id);
-    setTasks(updatedTasks);
+  /**
+   * Deleting a task
+   * 
+   * @param {int} id of task
+   * @returns true/false
+   */
+  const deleteTask = async id => {
+    try {
+      const taskToDelete = tasks.find(task => task.id === id);
+      if (!taskToDelete) {
+        console.error('No se encontro la tarea con el ID: ', id);
+        return; 
+      }
+      const response = await fetch('http://localhost:8080/api/deleteTask', {
+        method: 'DELETE', 
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(taskToDelete),
+      });
+      if (!response.ok) {
+        throw new Error('Error al eliminar la tarea'); 
+      }
+      setTasks(prevTasks => prevTasks.filter(task => task.id !== id));
+    } catch (error) {
+      console.error('Error ==> ', error);
+    }
   };
 
   const completedTask = id => {
@@ -69,22 +93,12 @@ function TaskList() {
    * Shows the tasks registered when loading the application
    */
   useEffect(() => {
-    const fetchTasks = async () => {
-      try {
-        const response = await fetch('http://localhost:8080/api/listTask');
-        if (!response.ok) {
-          throw new Error('Error al obtener las tareas');
-        }
-        const data = await response.json();
-        console.log(data);
-        setTasks(data);
-      } catch (error) {
-        console.error('Error:', error);
-      }
+    const loadTasks = async () => {
+      const data = await fetchTasks();
+      setTasks(data);
     };
-
-    fetchTasks();
-  });
+    loadTasks();
+  }, []);
 
   return (
     <>
