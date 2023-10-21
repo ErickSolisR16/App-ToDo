@@ -46,25 +46,6 @@ public class TaskController {
     }
 
     /**
-     * We check if there is a task list
-     *
-     * @return existTaskList()
-     */
-    public boolean existTaskList() {
-        return task.existTaskList();
-    }
-
-    /**
-     * We are looking for a specific task
-     *
-     * @param pId of task
-     * @return searchTask()
-     */
-    public boolean searchTask(int pId) {
-        return task.searchTask(pId);
-    }
-
-    /**
      * Delete a task
      *
      * @param pTask task in JSON format
@@ -72,5 +53,9 @@ public class TaskController {
      */
     public boolean deleteTask(String pTask) {
         return task.deleteTask(pTask);
+    }
+
+    public boolean updateStatusTask(String pTask) {
+        return task.updateStatusTask(pTask);
     }
 }

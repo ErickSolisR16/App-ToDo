@@ -79,14 +79,39 @@ function TaskList() {
     }
   };
 
-  const completedTask = id => {
-    const updatedTasks = tasks.map(task => {
-      if (task.id === id) {
-        task.completed = !task.completed;
+  /**
+   * We mark a task as completed
+   * 
+   * @param {int} id 
+   * @returns true/false/task
+   */
+  const completedTask = async id => {
+    try {
+      const taskToUpdateState = tasks.find(task => task.id === id);
+      if (!taskToUpdateState) {
+        console.error('No se encontro la tarea con el ID: ', id);
+        return;
       }
-      return task;
-    });
-    setTasks(updatedTasks);
+      const response = await fetch('http://localhost:8080/api/updateStatusTask', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        }, 
+        body: JSON.stringify(taskToUpdateState),
+      });
+      if (!response.ok) {
+        throw new Error('Error al completar la tarea'); 
+      }
+      const updatedTasks = tasks.map(task => {
+        if (task.id === id) {
+          task.state = !task.state;
+        }
+        return task;
+      });
+      setTasks(updatedTasks);
+    } catch (error) {
+      console.error('Error ==> ', error);
+    }
   };
 
   /**
@@ -109,7 +134,7 @@ function TaskList() {
               key={task.id}
               id={task.id}
               text={task.title}
-              completed={task.completed}
+              state={task.state}
               deleteTask={deleteTask}
               completedTask={completedTask}
             />

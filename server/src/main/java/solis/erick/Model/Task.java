@@ -27,9 +27,10 @@ public class Task {
      * @param id of task
      * @param title of task
      */
-    public Task(int id, String title) {
+    public Task(int id, String title, int state) {
         this.id = id;
         this.title = title;
+        this.state = state;
     }
 
     public int getId() {
@@ -38,6 +39,10 @@ public class Task {
 
     public String getTitle() {
         return title;
+    }
+
+    public int getState() {
+        return state;
     }
 
     /**
@@ -89,10 +94,11 @@ public class Task {
             resultSet = preparedStatement.executeQuery();
             ArrayNode listTask = objectMapper.createArrayNode();
             while (resultSet.next()) {
-                Task newTask = new Task(resultSet.getInt(1), resultSet.getString(2));
+                Task newTask = new Task(resultSet.getInt(1), resultSet.getString(2), resultSet.getInt(3));
                 ObjectNode taskObjectNode = objectMapper.createObjectNode();
                 taskObjectNode.put("id", newTask.getId());
                 taskObjectNode.put("title", newTask.getTitle());
+                taskObjectNode.put("state", newTask.getState());
                 listTask.add(taskObjectNode);
             }
             return listTask;
@@ -117,52 +123,10 @@ public class Task {
             connection = getConnection();
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, title);
-            preparedStatement.setInt(3, id);
+            preparedStatement.setInt(2, id);
             int rowAffected = preparedStatement.executeUpdate();
             return rowAffected != 0;
         } catch (Exception ex) {
-            ex.printStackTrace();
-            return false;
-        }
-    }
-
-    /**
-     * We check if there is a task list
-     *
-     * @return true/false
-     */
-    public boolean existTaskList() {
-        query = "SELECT COUNT(*) FROM task";
-        try {
-            connection = getConnection();
-            preparedStatement = connection.prepareStatement(query);
-            resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                int rowCount = resultSet.getInt(1);
-                return rowCount != 0;
-            }
-            return false;
-        } catch (SQLException ex) {
-         ex.printStackTrace();
-         return false;
-        }
-    }
-
-    /**
-     * We are looking for a specific task
-     *
-     * @param pId of task
-     * @return true/false
-     */
-    public boolean searchTask(int pId) {
-        query = "SELECT id FROM task WHERE id = ?";
-        try {
-            connection = getConnection();
-            preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1, pId);
-            resultSet = preparedStatement.executeQuery();
-            return resultSet.next();
-        } catch (SQLException ex) {
             ex.printStackTrace();
             return false;
         }
@@ -187,6 +151,58 @@ public class Task {
         } catch (Exception ex) {
             ex.printStackTrace();
             return false;
+        }
+    }
+
+    /**
+     * Update task state
+     *
+     * @param pTask task in JSON format
+     * @return true/false
+     */
+    public boolean updateStatusTask(String pTask) {
+        try {
+            JsonNode taskJSON = objectMapper.readTree(pTask);
+            int id = taskJSON.get("id").asInt();
+            int currentState = searchTask(id);
+            if (currentState != -1) {
+                int newState = (currentState == 1) ? 0 : 1;
+                query = "UPDATE task SET state = ? WHERE id = ?";
+                connection = getConnection();
+                preparedStatement = connection.prepareStatement(query);
+                preparedStatement.setInt(1, newState);
+                preparedStatement.setInt(2, id);
+                int rowsAffected = preparedStatement.executeUpdate();
+                return rowsAffected != 0;
+            }
+            return false;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
+     * Search the task in the database
+     *
+     * @param pId identify from the task
+     * @return currentState/-1
+     */
+    public int searchTask(int pId) {
+        try {
+            query = "SELECT state FROM task WHERE id = ?";
+            connection = getConnection();
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, pId);
+            resultSet = preparedStatement.executeQuery();
+            int currentState = -1;
+            if (resultSet.next()) {
+                currentState = resultSet.getInt("state");
+            }
+            return currentState;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return -1;
         }
     }
 

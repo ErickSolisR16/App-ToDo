@@ -27,16 +27,13 @@ public class Manager {
         return controller.updateTask(pTask);
     }
 
-    public boolean existTaskList() {
-        return controller.existTaskList();
-    }
-
-    public boolean searchTask(int pId) {
-        return controller.searchTask(pId);
-    }
-
     @DeleteMapping("/api/deleteTask")
     public boolean deleteTask(@RequestBody String pTask) {
         return controller.deleteTask(pTask);
+    }
+
+    @PutMapping("/api/updateStatusTask")
+    public boolean updateStatusTask(@RequestBody String pTask) {
+        return controller.updateStatusTask(pTask);
     }
 }
