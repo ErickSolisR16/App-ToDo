@@ -46,6 +46,11 @@ Move to the client folder
 cd client
 ```
 
+Install dependencies
+```bash
+npm install
+```
+
 Run the command to start the application
 ```bash 
 npm start
