@@ -9,7 +9,7 @@ function Form(props) {
   const handleChange = event => {
     setInput(event.target.value);
   };
-  
+
   const handleShipping = event => {
     event.preventDefault();
     const newTask = {
@@ -21,16 +21,16 @@ function Form(props) {
 
 
   return (
-    <form 
-    className='task-form' 
-    onSubmit={handleShipping}>
-      <input 
-      className='input-task' 
-      type='text'
-      placeholder='Escribe una nueva tarea'
-      name='text'
-      id='title'
-      onChange={handleChange} />
+    <form
+      className='task-form'
+      onSubmit={handleShipping}>
+      <input
+        className='input-task'
+        type='text'
+        placeholder='Escribe una nueva tarea'
+        name='text'
+        id='title'
+        onChange={handleChange} />
       <button className='button-task'>
         Agregar tarea
       </button>

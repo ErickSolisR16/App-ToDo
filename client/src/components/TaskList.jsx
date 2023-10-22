@@ -61,17 +61,17 @@ function TaskList() {
       const taskToDelete = tasks.find(task => task.id === id);
       if (!taskToDelete) {
         console.error('No se encontro la tarea con el ID: ', id);
-        return; 
+        return;
       }
       const response = await fetch('http://localhost:8080/api/deleteTask', {
-        method: 'DELETE', 
+        method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(taskToDelete),
       });
       if (!response.ok) {
-        throw new Error('Error al eliminar la tarea'); 
+        throw new Error('Error al eliminar la tarea');
       }
       setTasks(prevTasks => prevTasks.filter(task => task.id !== id));
     } catch (error) {
@@ -96,11 +96,11 @@ function TaskList() {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-        }, 
+        },
         body: JSON.stringify(taskToUpdateState),
       });
       if (!response.ok) {
-        throw new Error('Error al completar la tarea'); 
+        throw new Error('Error al completar la tarea');
       }
       const updatedTasks = tasks.map(task => {
         if (task.id === id) {
@@ -130,15 +130,15 @@ function TaskList() {
       <Form onSubmit={createTask} />
       <div className='task-list-container'>
         {tasks.map(task => (
-            <Task 
-              key={task.id}
-              id={task.id}
-              text={task.title}
-              state={task.state}
-              deleteTask={deleteTask}
-              completedTask={completedTask}
-            />
-          ))}
+          <Task
+            key={task.id}
+            id={task.id}
+            text={task.title}
+            state={task.state}
+            deleteTask={deleteTask}
+            completedTask={completedTask}
+          />
+        ))}
       </div>
     </>
   );
