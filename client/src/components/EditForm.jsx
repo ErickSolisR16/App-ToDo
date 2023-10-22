@@ -1,38 +1,40 @@
 import React, { useState } from 'react';
 import '../css/EditForm.css';
 
-function EditForm({ task, onSave, onCancel }) {
+function EditForm({ task, onSave, onCancel, updateTask }) {
 
-  const [editedTask, setEditedTask] = useState(task);
+  const [editedTask, setEditedTask] = useState({id: task.id, title: task.text });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setEditedTask({ ...editedTask, [name]: value });
   };
 
-  const handleEdit = (e) => {
+  const handleEdit = async (e) => {
     e.preventDefault();
-    onSave(editedTask);
+    updateTask(editedTask);
+    onSave();
   };
 
   return (
     <>
       <h1>Editar tarea</h1>
       <div className="task-edit-form">
-        <form onSubmit={handleEdit}>
+        <form>
           <div className="input-container">
             <input
               className="input-edit-task"
               type="text"
               placeholder="Editar tarea"
-              name="text"
+              name="title"
               id="title"
-              value={editedTask.text}
-              onChange={handleChange} />
+              value={editedTask.title}
+              onChange={handleChange}
+            />
           </div>
           <div className="button-container">
-            <button className='button-edit-task'>
-              Guardar cambios
+            <button className='button-edit-task' type="button" onClick={handleEdit}>
+              Guardar tarea
             </button>
             <button className='button-cancel-task' onClick={onCancel}>
               Cancelar

@@ -115,6 +115,33 @@ function TaskList() {
   };
 
   /**
+   * Task update
+   * 
+   * @param {*} updatedTask 
+   */
+  const updateTask = async (updatedTask) => {
+    try {
+      const response = await fetch('http://localhost:8080/api/updateTask', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updatedTask),
+      });
+      if (response.status === 200) {
+        const updatedTasks = tasks.map((task) =>
+          task.id === updatedTask.id ? updatedTask : task
+        );
+        setTasks(updatedTasks);
+      } else {
+        console.error('Error al actualizar la tarea en el servidor');
+      }
+    } catch (error) {
+      console.error('Error ==> ', error);
+    }
+  };
+
+  /**
    * Shows the tasks registered when loading the application
    */
   useEffect(() => {
@@ -137,6 +164,7 @@ function TaskList() {
             state={task.state}
             deleteTask={deleteTask}
             completedTask={completedTask}
+            updateTask={updateTask}
           />
         ))}
       </div>
