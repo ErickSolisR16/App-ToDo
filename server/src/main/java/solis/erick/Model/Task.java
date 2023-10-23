@@ -207,13 +207,6 @@ public class Task {
     }
 
     /**
-     * Attributes for database connection
-     */
-    private final String user = "todo_app_user";
-    private final String password = "321";
-    private final String urlConnection = "jdbc:sqlserver://DESKTOP-EC894PS\\SQLEXPRESS\\MSSQL:1433;databaseName=db_todo_app;encrypt=false;trustServerCertificate=false";
-
-    /**
      * Connection to the database
      *
      * @return connection
@@ -221,6 +214,9 @@ public class Task {
      */
     public Connection getConnection() throws SQLException {
         try {
+            String urlConnection = System.getenv("urlConnection");
+            String user = System.getenv("user");
+            String password = System.getenv("password");
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             connection = DriverManager.getConnection(urlConnection, user, password);
         } catch (ClassNotFoundException ex) {
