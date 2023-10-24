@@ -1,8 +1,10 @@
 package solis.erick.Controller;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import org.springframework.web.bind.annotation.*;
 import solis.erick.Model.Task;
 
+@RestController
 public class TaskController {
 
     /**
@@ -22,7 +24,8 @@ public class TaskController {
      * @param pTask Task in JSON format
      * @return createTask()
      */
-    public boolean createTask(String pTask) {
+    @PostMapping("/api/createTask")
+    public boolean createTask(@RequestBody String pTask) {
         return task.createTask(pTask);
     }
 
@@ -31,6 +34,7 @@ public class TaskController {
      *
      * @return listTask
      */
+    @GetMapping("/api/listTask")
     public ArrayNode showListTask() {
         return task.showListTask();
     }
@@ -41,7 +45,8 @@ public class TaskController {
      * @param pTask Task in JSON format
      * @return updateTask()
      */
-    public boolean updateTask(String pTask) {
+    @PutMapping("/api/updateTask")
+    public boolean updateTask(@RequestBody String pTask) {
         return task.updateTask(pTask);
     }
 
@@ -51,10 +56,18 @@ public class TaskController {
      * @param pTask task in JSON format
      * @return deleteTask()
      */
-    public boolean deleteTask(String pTask) {
+    @DeleteMapping("/api/deleteTask")
+    public boolean deleteTask(@RequestBody String pTask) {
         return task.deleteTask(pTask);
     }
 
+    /**
+     * Update task status
+     *
+     * @param pTask in JSON format
+     * @return updateStatusTask()
+     */
+    @PutMapping("/api/updateStatusTask")
     public boolean updateStatusTask(String pTask) {
         return task.updateStatusTask(pTask);
     }
