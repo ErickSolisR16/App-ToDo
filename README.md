@@ -27,7 +27,11 @@ Go to the project directory
 cd App-ToDo
 ```
 ### Server Setup
-Open the IDE of preference
+Move to the server folder
+```bash
+cd server
+```
+Open the server folder in the IDE of preference
 
 Build the project
 
