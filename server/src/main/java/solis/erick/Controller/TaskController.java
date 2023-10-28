@@ -68,7 +68,7 @@ public class TaskController {
      * @return updateStatusTask()
      */
     @PutMapping("/api/updateStatusTask")
-    public boolean updateStatusTask(String pTask) {
+    public boolean updateStatusTask(@RequestBody String pTask) {
         return task.updateStatusTask(pTask);
     }
 }
