@@ -13,7 +13,7 @@ public class Task {
      * Atributtes
      */
     private int id, state;
-    private String title;
+    private String title, description;
 
     /**
      * Default constructor
@@ -27,8 +27,9 @@ public class Task {
      * @param id of task
      * @param title of task
      */
-    public Task(int id, String title, int state) {
+    public Task(int id, String title, String description, int state) {
         this.id = id;
+        this.description = description;
         this.title = title;
         this.state = state;
     }
@@ -63,11 +64,13 @@ public class Task {
         try {
             JsonNode taskJSON = objectMapper.readTree(pTask);
             String title = taskJSON.get("title").asText();
-            query = "INSERT INTO task (title, state) VALUES (?, ?)";
+            String description = taskJSON.get("description").asText();
+            query = "INSERT INTO task (title, description, state) VALUES (?, ?, ?)";
             connection = getConnection();
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, title);
-            preparedStatement.setInt(2, 0);
+            preparedStatement.setString(2, description);
+            preparedStatement.setInt(3, 0);
             int rowAffetec = preparedStatement.executeUpdate();
             return rowAffetec != 0;
         } catch (Exception ex) {
@@ -94,7 +97,7 @@ public class Task {
             resultSet = preparedStatement.executeQuery();
             ArrayNode listTask = objectMapper.createArrayNode();
             while (resultSet.next()) {
-                Task newTask = new Task(resultSet.getInt(1), resultSet.getString(2), resultSet.getInt(3));
+                Task newTask = new Task(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(4), resultSet.getInt(3));
                 ObjectNode taskObjectNode = objectMapper.createObjectNode();
                 taskObjectNode.put("id", newTask.getId());
                 taskObjectNode.put("title", newTask.getTitle());

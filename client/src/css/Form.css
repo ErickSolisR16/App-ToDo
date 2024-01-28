@@ -6,19 +6,20 @@
 }
 
 .input-task {
-  width: 450px;
-  font-size: 18px;
+  width: 650px;
+  font-size: 17px;
   font-family: 'Times New Roman', Times, serif;;
   background-color: #fff;
-  padding: 14px 32px 14px 16px;
-  border-radius: 4px 0 0 px;
+  padding: 12px 30px 12px 14px;
+  border-radius: 4px 0 0 4px;
   border: 2px solid #00471b;
   outline: none;
+  margin: 3px 0 7px 0;
 }
 
 .button-task {
-  padding: 16px;
-  font-size: 18px;
+  padding: 14px;
+  font-size: 17px;
   font-family: 'Times New Roman', Times, serif;
   border: none;
   border-radius: 0 4px 4px 0;
@@ -27,4 +28,5 @@
   background: #0833a2;
   color: #fff;
   text-transform: capitalize;
+  width: 650px;
 }

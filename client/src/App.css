@@ -7,7 +7,8 @@
 html, 
 body {
   color: #fff;
-  background-color: #086788;
+  background: rgb(8,103,136);
+  background: linear-gradient(90deg, rgba(8,103,136,1) 50%, rgba(58,69,180,1) 50%);
   font-family: 'Times New Roman', Times, serif;
   margin-top: 40px;
 }

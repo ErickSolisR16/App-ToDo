@@ -4,21 +4,27 @@ import { v4 as uuidv4 } from 'uuid';
 
 function Form(props) {
 
-  const [input, setInput] = useState('');
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
 
-  const handleChange = event => {
-    setInput(event.target.value);
+  const handleTitleChange = (event) => {
+    setTitle(event.target.value);
   };
 
-  const handleShipping = event => {
+  const handleDescriptionChange = (event) => {
+    setDescription(event.target.value);
+  };
+
+  const handleShipping = (event) => {
     event.preventDefault();
     const newTask = {
-      title: input
+      title: title,
+      description: description,
     };
     props.onSubmit(newTask);
     document.getElementById('title').value = '';
+    document.getElementById('description').value = '';
   };
-
 
   return (
     <form
@@ -28,9 +34,16 @@ function Form(props) {
         className='input-task'
         type='text'
         placeholder='Escribe una nueva tarea'
-        name='text'
         id='title'
-        onChange={handleChange} />
+        onChange={handleTitleChange} />
+
+      <input 
+        className='input-task'
+        type='text'
+        placeholder='Agrega una descripcion'
+        id='description'
+        onChange={handleDescriptionChange} />
+
       <button className='button-task'>
         Agregar tarea
       </button>
