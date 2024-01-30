@@ -3,18 +3,29 @@ import '../css/EditForm.css';
 
 function EditForm({ task, onSave, onCancel, updateTask }) {
 
-  const [editedTask, setEditedTask] = useState({id: task.id, title: task.text });
+  const [editedTitle, setEditedTitle] = useState(task.text);
+  const [editedDescription, setEditedDescription] = useState(task.description);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setEditedTask({ ...editedTask, [name]: value });
+  console.log(task.description);
+
+  const handleTitleChange = (e) => {
+    setEditedTitle(e.target.value);
   };
 
-  const handleEdit = async (e) => {
-    e.preventDefault();
+  const handleDescriptionChange = (e) => {
+    setEditedDescription(e.target.value);
+  };
+
+  const handleSave = () => {
+    const editedTask = {
+      id: task.id,
+      text: editedTitle,
+      description: editedDescription,
+    };
     updateTask(editedTask);
     onSave();
   };
+
 
   return (
     <>
@@ -28,12 +39,22 @@ function EditForm({ task, onSave, onCancel, updateTask }) {
               placeholder="Editar tarea"
               name="title"
               id="title"
-              value={editedTask.title}
-              onChange={handleChange}
+              value={editedTitle}
+              onChange={handleTitleChange}
+            />
+            <br />
+            <input
+              className="input-edit-task"
+              type="text"
+              placeholder="Editar descripcion"
+              name="description"
+              id="descripcion"
+              value={editedDescription}
+              onChange={handleDescriptionChange}
             />
           </div>
           <div className="button-container">
-            <button className='button-edit-task' type="button" onClick={handleEdit}>
+            <button className='button-edit-task' type="button" onClick={handleSave}>
               Guardar tarea
             </button>
             <button className='button-cancel-task' onClick={onCancel}>

@@ -161,6 +161,7 @@ function TaskList() {
             key={task.id}
             id={task.id}
             text={task.title}
+            description={task.description}
             state={task.state}
             deleteTask={deleteTask}
             completedTask={completedTask}

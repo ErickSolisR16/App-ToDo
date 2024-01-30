@@ -24,8 +24,10 @@ public class Task {
     /**
      * Constructor that receives all parameters
      *
-     * @param id of task
-     * @param title of task
+     * @param id            of task
+     * @param title         of task
+     * @param description   of task
+     * @param state         of task
      */
     public Task(int id, String title, String description, int state) {
         this.id = id;
@@ -40,6 +42,10 @@ public class Task {
 
     public String getTitle() {
         return title;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public int getState() {
@@ -101,6 +107,7 @@ public class Task {
                 ObjectNode taskObjectNode = objectMapper.createObjectNode();
                 taskObjectNode.put("id", newTask.getId());
                 taskObjectNode.put("title", newTask.getTitle());
+                taskObjectNode.put("description", newTask.getDescription());
                 taskObjectNode.put("state", newTask.getState());
                 listTask.add(taskObjectNode);
             }

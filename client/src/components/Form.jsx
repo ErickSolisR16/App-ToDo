@@ -40,7 +40,7 @@ function Form(props) {
       <input 
         className='input-task'
         type='text'
-        placeholder='Agrega una descripcion'
+        placeholder='Escribe una descripción a la tarea'
         id='description'
         onChange={handleDescriptionChange} />
 
