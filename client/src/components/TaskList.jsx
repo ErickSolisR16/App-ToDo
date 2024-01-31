@@ -160,7 +160,7 @@ function TaskList() {
           <Task
             key={task.id}
             id={task.id}
-            text={task.title}
+            title={task.title}
             description={task.description}
             state={task.state}
             deleteTask={deleteTask}

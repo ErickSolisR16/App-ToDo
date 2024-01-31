@@ -129,11 +129,13 @@ public class Task {
             JsonNode taskJSON = objectMapper.readTree(pTask);
             int id = taskJSON.get("id").asInt();
             String title = taskJSON.get("title").asText();
-            query = "UPDATE task SET title = ? WHERE id = ?";
+            String description = taskJSON.get("description").asText();
+            query = "UPDATE task SET title = ?, description = ? WHERE id = ?";
             connection = getConnection();
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, title);
-            preparedStatement.setInt(2, id);
+            preparedStatement.setString(2, description);
+            preparedStatement.setInt(3, id);
             int rowAffected = preparedStatement.executeUpdate();
             return rowAffected != 0;
         } catch (Exception ex) {

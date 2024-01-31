@@ -3,10 +3,8 @@ import '../css/EditForm.css';
 
 function EditForm({ task, onSave, onCancel, updateTask }) {
 
-  const [editedTitle, setEditedTitle] = useState(task.text);
+  const [editedTitle, setEditedTitle] = useState(task.title);
   const [editedDescription, setEditedDescription] = useState(task.description);
-
-  console.log(task.description);
 
   const handleTitleChange = (e) => {
     setEditedTitle(e.target.value);
@@ -19,7 +17,7 @@ function EditForm({ task, onSave, onCancel, updateTask }) {
   const handleSave = () => {
     const editedTask = {
       id: task.id,
-      text: editedTitle,
+      title: editedTitle,
       description: editedDescription,
     };
     updateTask(editedTask);
@@ -48,7 +46,7 @@ function EditForm({ task, onSave, onCancel, updateTask }) {
               type="text"
               placeholder="Editar descripcion"
               name="description"
-              id="descripcion"
+              id="description"
               value={editedDescription}
               onChange={handleDescriptionChange}
             />

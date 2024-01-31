@@ -3,7 +3,7 @@ import '../css/Task.css'
 import { AiOutlineCloseCircle, AiOutlineEdit } from 'react-icons/ai';
 import EditForm from "./EditForm";
 
-function Task({ id, text, description, state, completedTask, deleteTask, updateTask }) {
+function Task({ id, title, description, state, completedTask, deleteTask, updateTask }) {
 
   const [isEditing, setIsEditing] = useState(false);
 
@@ -22,14 +22,14 @@ function Task({ id, text, description, state, completedTask, deleteTask, updateT
       {isEditing ? (
         <div className="modal">
           <div className="modal-content">
-            <EditForm task={{ id, text, description }} onSave={closeEditForm} updateTask={updateTask} />
+            <EditForm task={{ id, title, description }} onSave={closeEditForm} updateTask={updateTask} />
           </div>
           <div className="modal-overlay" onClick={closeEditForm} />
         </div>
       ) : (
         <>
           <div className='task-text' onClick={() => completedTask(id)}>
-            {text}
+            {title}
           </div>
           <div className='task-container-icons'>
             <AiOutlineEdit className='task-icon' onClick={handleEditClick} />
