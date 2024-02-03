@@ -78,6 +78,7 @@ public class Task {
             preparedStatement.setString(2, description);
             preparedStatement.setInt(3, 0);
             int rowAffetec = preparedStatement.executeUpdate();
+            connection.close();
             return rowAffetec != 0;
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -111,6 +112,7 @@ public class Task {
                 taskObjectNode.put("state", newTask.getState());
                 listTask.add(taskObjectNode);
             }
+            connection.close();
             return listTask;
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -137,6 +139,7 @@ public class Task {
             preparedStatement.setString(2, description);
             preparedStatement.setInt(3, id);
             int rowAffected = preparedStatement.executeUpdate();
+            connection.close();
             return rowAffected != 0;
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -159,6 +162,7 @@ public class Task {
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, id);
             int rowAffected = preparedStatement.executeUpdate();
+            connection.close();
             return rowAffected != 0;
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -187,6 +191,7 @@ public class Task {
                 int rowsAffected = preparedStatement.executeUpdate();
                 return rowsAffected != 0;
             }
+            connection.close();
             return false;
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -211,6 +216,7 @@ public class Task {
             if (resultSet.next()) {
                 currentState = resultSet.getInt("state");
             }
+            connection.close();
             return currentState;
         } catch (Exception ex) {
             ex.printStackTrace();
